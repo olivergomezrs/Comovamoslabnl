@@ -59,6 +59,18 @@ server <- function(input, output) {
     fromJSON(input$file$datapath)
   })
   
+  # Mostrar resumen de la calidad general
+  output$summary <- renderPrint({
+    json_data <- data()
+    list(
+      "Archivo" = json_data$metadata$filename,
+      "Filas totales" = json_data$metadata$total_rows,
+      "Columnas totales" = json_data$metadata$total_columns,
+      "Puntaje General" = json_data$overall_quality$score,
+      "Interpretación" = json_data$overall_quality$interpretation
+    )
+  })
+  
   # Variable reactiva para la columna seleccionada
   columna_seleccionada <- reactiveVal("age")  # Valor por defecto
   
