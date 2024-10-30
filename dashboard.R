@@ -1,7 +1,7 @@
 library(shiny)
 library(jsonlite)
 library(ggplot2)
-
+library(scales)
 # Definimos la interfaz de usuario (UI)
 ui <- fluidPage(
   titlePanel("Dashboard de Calidad de Datos"),
@@ -62,7 +62,7 @@ server <- function(input, output) {
     
     ggplot(df_nulls, aes(x = Columna, y = Nulos)) +
       geom_bar(stat = "identity", fill = "steelblue") +
-      geom_text(aes(label = Nulos), vjust = -0.5) +  # Etiquetas con los valores
+      geom_text(aes(label = scales::percent(Nulos/json_data$metadata$total_rows)), vjust = -0.5) +  # Etiquetas con los valores
       theme_minimal() +
       labs(title = "Valores Nulos por Columna", x = "Columna", y = "Cantidad de Nulos")
   })
@@ -87,7 +87,7 @@ server <- function(input, output) {
     
     ggplot(df_scores, aes(x = Categoria, y = Puntaje)) +
       geom_bar(stat = "identity", fill = "darkgreen") +
-      geom_text(aes(label = round(Puntaje, 3)), vjust = -0.5) +  # Etiquetas con puntajes
+      geom_text(aes(label = scales::percent(Puntaje)), vjust = -0.5) +  # Etiquetas con puntajes
       theme_minimal() +
       labs(title = "Puntajes por Categoría de Calidad", x = "Categoría", y = "Puntaje")
   })
