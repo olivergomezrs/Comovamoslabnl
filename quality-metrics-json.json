@@ -1,0 +1,210 @@
+{
+  "metadata": {
+    "filename": "example_dataset.csv",
+    "timestamp": "2024-10-29T14:30:00",
+    "total_rows": 1000,
+    "total_columns": 8,
+    "columns": ["id", "name", "age", "email", "signup_date", "last_login", "status", "country"],
+    "analysis_version": "1.0"
+  },
+  "quality_checks": {
+    "completeness": {
+      "metrics": {
+        "total_rows": 1000,
+        "total_cells": 8000,
+        "total_null_cells": 45,
+        "completeness_ratio": 0.994,
+        "null_counts_by_column": {
+          "id": 0,
+          "name": 2,
+          "age": 15,
+          "email": 0,
+          "signup_date": 8,
+          "last_login": 12,
+          "status": 3,
+          "country": 5
+        }
+      },
+      "validations": {
+        "id": {
+          "success": true,
+          "unexpected_count": 0,
+          "unexpected_percent": 0.0
+        },
+        "email": {
+          "success": true,
+          "unexpected_count": 0,
+          "unexpected_percent": 0.0
+        },
+        "name": {
+          "success": false,
+          "unexpected_count": 2,
+          "unexpected_percent": 0.2
+        }
+      },
+      "grade": {
+        "score": 0.994,
+        "interpretation": "Excellent",
+        "threshold_met": true
+      }
+    },
+    "accuracy": {
+      "metrics": {
+        "id": {
+          "data_type": "int64",
+          "unique_values_count": 1000,
+          "min": 1,
+          "max": 1000,
+          "mean": 500.5,
+          "std": 288.675
+        },
+        "age": {
+          "data_type": "int64",
+          "unique_values_count": 72,
+          "min": 18,
+          "max": 90,
+          "mean": 34.2,
+          "std": 12.4
+        },
+        "email": {
+          "data_type": "object",
+          "unique_values_count": 998,
+          "pattern_match_rate": 0.999
+        }
+      },
+      "validations": {
+        "data_type_check": {
+          "success": true,
+          "unexpected_count": 0
+        },
+        "range_check": {
+          "success": true,
+          "unexpected_count": 0
+        },
+        "format_check": {
+          "success": false,
+          "unexpected_count": 2,
+          "problematic_patterns": ["invalid_email_format"]
+        }
+      },
+      "grade": {
+        "score": 0.985,
+        "interpretation": "Excellent",
+        "threshold_met": true
+      }
+    },
+    "consistency": {
+      "metrics": {
+        "status": {
+          "unique_values_count": 3,
+          "most_common_value": "active",
+          "most_common_value_frequency": 850,
+          "value_distribution": {
+            "active": 850,
+            "inactive": 100,
+            "pending": 47,
+            "invalid": 3
+          }
+        },
+        "country": {
+          "unique_values_count": 45,
+          "length_stats": {
+            "min_length": 2,
+            "max_length": 56,
+            "mean_length": 12.4
+          }
+        }
+      },
+      "validations": {
+        "value_set_check": {
+          "success": false,
+          "unexpected_values": ["invalid"],
+          "unexpected_count": 3
+        },
+        "format_consistency": {
+          "success": true,
+          "unexpected_count": 0
+        }
+      },
+      "grade": {
+        "score": 0.945,
+        "interpretation": "Good",
+        "threshold_met": true
+      }
+    },
+    "uniqueness": {
+      "metrics": {
+        "id": {
+          "unique_count": 1000,
+          "duplicate_count": 0,
+          "duplication_ratio": 0.0,
+          "duplicate_values": {}
+        },
+        "email": {
+          "unique_count": 998,
+          "duplicate_count": 2,
+          "duplication_ratio": 0.002,
+          "duplicate_values": {
+            "example@email.com": 2
+          }
+        }
+      },
+      "validations": {
+        "id_uniqueness": {
+          "success": true,
+          "unexpected_count": 0,
+          "unexpected_percent": 0.0
+        },
+        "email_uniqueness": {
+          "success": false,
+          "unexpected_count": 2,
+          "unexpected_percent": 0.2
+        }
+      },
+      "grade": {
+        "score": 0.975,
+        "interpretation": "Excellent",
+        "threshold_met": true
+      }
+    }
+  },
+  "overall_quality": {
+    "score": 0.975,
+    "grade": "A",
+    "interpretation": "Excellent",
+    "category_scores": {
+      "completeness": 0.994,
+      "accuracy": 0.985,
+      "consistency": 0.945,
+      "uniqueness": 0.975
+    },
+    "recommendations": [
+      {
+        "category": "consistency",
+        "issue": "Invalid status values detected",
+        "impact": "Medium",
+        "suggestion": "Remove or correct the 3 records with 'invalid' status"
+      },
+      {
+        "category": "uniqueness",
+        "issue": "Duplicate email addresses",
+        "impact": "Low",
+        "suggestion": "Verify and correct 2 duplicate email records"
+      }
+    ]
+  },
+  "thresholds": {
+    "grades": {
+      "A": {"min": 0.95, "interpretation": "Excellent"},
+      "B": {"min": 0.90, "interpretation": "Good"},
+      "C": {"min": 0.85, "interpretation": "Fair"},
+      "D": {"min": 0.80, "interpretation": "Poor"},
+      "F": {"min": 0.00, "interpretation": "Failed"}
+    },
+    "critical_checks": {
+      "null_tolerance": ["id", "email"],
+      "uniqueness_required": ["id", "email"],
+      "format_validation": ["email", "signup_date"]
+    }
+  }
+}
